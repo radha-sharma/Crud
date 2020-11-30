@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>  jquery crud  </title>    
+      
+      
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+	 
+
+      </head>
+    <body>
+      <form   name="form" id="form" >
+        <h2>Javascript Crud</h2>
+         <div class="form-group col-md-6">
+            <label for="name">Name</label>
+            <input type="text" name="name" class="form-control name" id="name" placeholder="Enter Name" required>
+            
+          </div>
+          <div class="form-group col-md-6">
+            <label for="email">Email address</label>
+            <input type="email" name="email"  class="form-control email" id="email" placeholder="Enter email" required>
+            
+          </div>         
+            <div class="form-group col-md-6">
+              <label for="phone_no">Phone No.</label>
+              <input type="text" name="phone_no" class="form-control phone_no" id="phone_no" placeholder="phone_no" required>
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender:</label>               
+                <input type="radio"  name="gender" id="gender" class="gender" value="female"> Female    
+                               
+                <input type="radio"  name="gender" id="gender" class="gender" value="male">Male                
+              
+            </div>          
+          <div  >
+            <button type="submit" id="btnsubmit" value="submit"   class="btn btn-primary btn-sm">Submit</button>
+            <!-- <input type="button"  id="reset-btn" value="reset"  class="btn btn-danger btn-sm"  > -->
+         </div>
+    </form>
+
+      <table class="table table-hover data-table col-sm-6" id="table" >
+      <thead>
+        <tr>
+         
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Phone No.</th>
+          <th scope="col">Gender</th>
+           <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody id="tbody">
+       
+
+      </tbody>
+    </table> 
+        <script>
+          
+       $("form").submit(function(e){
+     
+	        e.preventDefault();
+	        var name = $("input[name='name']").val();
+	        var email = $("input[name='email']").val();
+	         var phone_no = $("input[name='phone_no']").val();
+	        var gender = $("input[name='gender']").val();
+	     
+	        $(".data-table tbody").append("<tr data-name='"+name+"' data-email='"+email+"' data-phone_no='"+phone_no+"' data-gender='"+gender+"' ><td>"+name+"</td><td>"+email+"</td><td>"+phone_no+"</td><td>"+gender+"</td><td><button class='btn btn-info btn-sm btn-edit'>Edit</button><button class='btn btn-danger btn-sm btn-delete'>Delete</button></td></tr>");
+	    
+	        $("input[name='name']").val('');
+	        $("input[name='email']").val('');
+	          $("input[name='phone_no']").val('');
+	            $("input[name='gender']").val('');
+         });
+
+        $("body").on("click", ".btn-edit", function(){
+        	
+
+
+        	 // $("data-name").val($(this).parent().parent().find('#name').html());
+          //   $("data-email").val($(this).parent().parent().find('#email').html());
+          //   $("data-phone_no").val($(this).parent().parent().find('#phone_no').html());
+          //   $("data-gender").val($(this).parent().parent().find('#gender').html());
+        	
+
+        var name = $(this).parents("tr").attr('data-name');
+        var email = $(this).parents("tr").attr('data-email');
+         var phone_no = $(this).parents("tr").attr('data-phone_no');
+        var gender = $(this).parents("tr").attr('data-gender');
+    
+
+        $(this).parents("tr").find("td:eq(0)").html('<input name="edit_name" value="'+name+'">');
+        $(this).parents("tr").find("td:eq(1)").html('<input name="edit_email" value="'+email+'">');
+          $(this).parents("tr").find("td:eq(2)").html('<input name="edit_phone_no" value="'+phone_no+'">');
+        $(this).parents("tr").find("td:eq(3)").html('<input name="edit_gender" value="'+gender+'">');
+    
+        $(this).parents("tr").find("td:eq(4)").prepend("<button class='btn btn-info btn-sm btn-update'>Update</button>")
+        $(this).hide();
+
+    });
+
+
+         $("body").on("click", ".btn-update", function(){
+         	
+        var name = $(this).parents("tr").find("input[name='edit_name']").val();
+        var email = $(this).parents("tr").find("input[name='edit_email']").val();
+        var phone_no = $(this).parents("tr").find("input[name='edit_phone_no']").val();
+        var gender = $(this).parents("tr").find("input[name='edit_gender']").val();
+    
+        $(this).parents("tr").find("td:eq(0)").text(name);
+        $(this).parents("tr").find("td:eq(1)").text(email);
+         $(this).parents("tr").find("td:eq(2)").text(phone_no);
+        $(this).parents("tr").find("td:eq(3)").text(gender);
+     
+        $(this).parents("tr").attr('data-name', name);
+        $(this).parents("tr").attr('data-email', email);
+        $(this).parents("tr").attr('data-name', phone_no);
+        $(this).parents("tr").attr('data-email', gender);
+    
+        $(this).parents("tr").find(".btn-edit").show();       
+        $(this).parents("tr").find(".btn-update").remove();
+    });
+
+
+          $("body").on("click", ".btn-delete", function(){
+        $(this).parents("tr").remove();
+    });
+
+
+   
+
+        </script> 
+   
+     </body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--  <script>
+    	function GetHtml()
+    	{
+    		
+    		return "<tr><td class='Name'>$[Name]</td>"
+    		+"<td class='Email'>$[Email]</td>"
+    		+"<td class='Phone_no'>$[Phone_no]</td>"
+    		+"<td class='Gender'>$[Gender]</td>"
+    		+"<td class='action'><a href='' id='edit'>$[action]</a>    <a href='' id='delete'>$[Delete]</a></td>";	
+
+    	}
+         $(document).ready(function () {
+         	
+         	$("#btnsubmit").click(function (){
+         		let insert= GetHtml().replace("$[Name]",$("#name").val()).replace("$[Email]",$("#email").val()).replace("$[Phone_no]",$("#phone_no").val()).replace("$[Gender]",$("#gender").val()).replace("$[action]", "Edit").replace("$[Delete]","Delete");
+         		$("#tbody").append(insert);
+
+
+         	});
+         	 $("#reset-btn").click(function(){
+			        $("#form").trigger("reset");
+			    });
+
+         	 $(document).on("click", "#edit", function () {
+         	 	debugger;
+            
+             $("#name").val($(this).parent().parent().find('.name').html());
+            
+              $("#email").val($(this).parent().parent().find('.email').html());
+             
+               $("#phone_no").val($(this).parent().parent().find('.phone_no').html());  
+                               
+
+            $("#gender").val($(this).parent().parent().find('.gender').html());           
+
+            // $(this).parents("tr").remove();
+
+         
+            $("#btnsubmit").focus();
+         	});
+
+            $(document).on("click", "#delete", function () {
+        	debugger;
+
+            $(this).parents("tr").remove();
+
+              }); 
+         });
+
+
+
+    </script> -->
