@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>        
+      </title>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+     
+     <script>
+  //validation
+      
+       function validate() 
+       {  
+          if (document.form.name.value == "") 
+          {
+              alert("Enter a name");
+              document.form.name.focus();
+              return false;
+          }
+          if (!/^[a-zA-Z]*$/g.test(document.form.name.value)) 
+          {
+              alert("Invalid characters");
+              document.form.name.focus();
+              return false;
+          }
+
+          if( document.form.email.value == "" )
+           {
+            alert("pleas Enter email");
+             document.form.email.focus();
+              return false;
+           }
+
+           var email = document.form.email;
+            if (email.value == "")
+            {
+            window.alert("Please enter e-mail .");
+            email.focus();
+            return false;
+            }
+            if (email.value.indexOf("@", 0) < 0)
+            {
+            window.alert("Please enter a valid e-mail address.");
+            email.focus();
+            return false;
+            }
+            if (email.value.indexOf(".", 0) < 0)
+            {
+            window.alert("Please enter a valid e-mail address.");
+            email.focus();
+            return false;
+            }
+
+              var regex =  /^\+[91]{2}-?[0-9]{10}$/;
+              // /^\+(?:[0-9] ?){6,14}[0-9]$/;
+
+
+                        if (regex.test(document.form.phone_no))
+                         {
+                          document.form.phone_no.focus();
+                           return false;
+                         } 
+                        else
+                         {
+                          alert("enter valid phone number");
+                           document.form.phone_no.focus();
+                           return false;
+                         }
+
+              // var a = document.form.phone_no.value;
+              //     if(a=="")
+              //     {
+              //     alert("please Enter the phone Number");
+              //     document.form.phone_no.focus();
+              //     return false;
+              //     }
+              //     if(isNaN(a))
+              //     {
+              //     alert("Enter the valid phone Number(Like : +919566137117)");
+              //     document.form.phone_no.focus();
+              //     return false;
+              //     }
+              //     if((a.length < 1) || (a.length > 13))
+              //     {
+              //     alert(" Please Enter valid phone number");
+              //     document.form.phone_no.select();
+              //     return false;
+              //     }
+            }          
+    </script>
+
+   </head>
+    <body>
+      <form   name="form" >
+        <h2>Javascript Crud</h2>
+         <div class="form-group col-md-6">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" placeholder="Enter Name" required>
+            
+          </div>
+          <div class="form-group col-md-6">
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter email" required>
+            
+          </div>         
+            <div class="form-group col-md-6">
+              <label for="phone_no">Phone No.</label>
+              <input type="text" class="form-control" id="phone_no" placeholder="phone_no" required>
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender:</label>               
+                <input type="radio"  name="female" id="gender" value="female"> Female    
+                               
+                <input type="radio"  name="male" id="gender" value="male">Male
+                
+              
+            </div>          
+          <div  >
+            <button type="button" value="submit" onclick="onformsubmit();"  class="btn btn-primary">Submit</button>
+            <button type="button" onclick="resetForm();" class="btn btn-danger" >Reset</button>
+         </div>
+    </form>
+
+      <table class="table table-hover" id="table" >
+      <thead>
+        <tr>
+         
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Phone No.</th>
+          <th scope="col">Gender</th>
+           <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+       
+      </tbody>
+    </table> 
+
+   <script>
+
+  var selectedRow=null
+  function onformsubmit()
+  {
+
+    var formData=readFormData();
+       validate();
+      if(selectedRow==null)
+      {
+         // validate();
+      insertNewRecord();
+      resetForm();
+      }
+      else
+      {
+        updateRecord(formData);
+
+        
+      }
+   }
+  
+
+  function insertNewRecord()
+  {
+   
+  
+    var table=document.getElementById("table"),
+     newRow=table.insertRow(table.length),
+     cell1=newRow.insertCell(0),   
+     cell2=newRow.insertCell(1),   
+      cell3=newRow.insertCell(2),    
+      cell4=newRow.insertCell(3),    
+      cell5=newRow.insertCell(4),
+      name=document.getElementById("name").value,
+      email=document.getElementById("email").value,
+      phone_no=document.getElementById("phone_no").value,
+       gender=document.getElementById("gender").value;
+
+       
+       cell1.innerHTML=name;
+       cell2.innerHTML=email;
+       cell3.innerHTML=phone_no;
+       cell4.innerHTML=gender;
+      cell5.innerHTML= `<button type="button" onclick="onEdit(this)">Edit</button>                                                                         <button type="button" onclick="onDelete(this)">Delete</button>`;
+  return false;
+
+  }
+
+function resetForm()
+{
+  document.getElementById("name").value="";
+   document.getElementById("email").value="";
+    document.getElementById("phone_no").value="";
+     document.getElementById("gender").value="";
+     selectedRow=null;
+
+}
+  function onEdit(td)
+  {
+    
+    selectedRow = td.parentNode.parentNode;
+    
+    document.getElementById('name').value=selectedRow.childNodes[0].innerText;
+     document.getElementById('email').value=selectedRow.childNodes[1].innerText; 
+     document.getElementById('phone_no').value=selectedRow.childNodes[2].innerText; 
+     document.getElementById('gender').value=selectedRow.childNodes[3].innerText;
+
+  }
+  function readFormData()
+  {
+    var formData={};
+    formData['name']=document.getElementById('name').value;
+     formData['email']=document.getElementById('email').value;
+     formData['phone_no']=document.getElementById('phone_no').value;
+     formData['gender']=document.getElementById('gender').value;
+     return formData;
+
+  }
+
+
+  function updateRecord(formData)
+  {
+    debugger;
+    selectedRow.cells[0].innerText=formData.name;
+    selectedRow.cells[1].innerText=formData.email;
+    selectedRow.cells[2].innerText=formData.phone_no;
+    selectedRow.cells[3].innerText=formData.gender;
+
+
+  } 
+  function onDelete(tr)
+  {
+    if(confirm("Are you sure to delete this record ?"))
+    {
+    
+      row=tr.parentNode.parentNode.rowIndex;
+      document.getElementById("table").deleteRow(row);
+     
+    }
+  }
+
+</script>
+   </body>
+
+</html>
