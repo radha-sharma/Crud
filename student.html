@@ -1,0 +1,210 @@
+
+
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>  student form </title> 
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+      <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.js"></script>
+      <style>
+
+     </style>
+  </head>
+<body>
+    <div class="container">
+      <h2>Student form</h2>
+        <form class="form-horizontal" >
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="name">Name:</label>
+                <div class="col-sm-6">
+                  <input type="text" name="name" class="form-control"  id="name" placeholder="Enter Name">
+                </div>
+              </div>
+              <div class="container">
+                <h4><b>Student Marks</b></h4>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="pwd">English:</label>
+                <div class="col-sm-6">
+                  <input type="text" name="eng" class="form-control" id="eng" placeholder="Enter English Marks">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="math">Mathematics:</label>
+                <div class="col-sm-6">
+                  <input type="text" name="math" class="form-control" id="math" placeholder="Enter Mathematics Marks">
+                </div>
+              </div>
+
+              <div class="container  ">
+                <h4><b>Searching</b></h4>
+              </div>
+                <div class="form-group col-sm-6">
+                 <input type="text" name="search"  onkeyup="searching()" placeholder="Search for names.." class="form-control" id="search" >
+                </div>            
+                                    
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+              </div>
+         </form>
+        </div>
+
+         <table class="table  table-border data-table table-hover" id="mytable">
+          <thead>
+            <tr>             
+              <th scope="col">Name</th>
+              <th scope="col">English</th>
+              <th scope="col">Mathematics</th>
+              <th scope="col">Total</th>  
+              <th scope="col">Avarage</th>  
+               <th scope="col">Action</th>            
+            </tr>
+          </thead>
+          <tbody id="tbody">
+           
+
+          </tbody>
+        </table> 
+       <script>
+
+
+         function searching()
+         {
+            var input, filter, table, tr, td, i, txtValue;
+             input = document.getElementById("search");
+              filter = input.value.toUpperCase();
+               table = document.getElementById("mytable");
+               tr = table.getElementsByTagName("tr");
+                for (i = 0; i < tr.length; i++) 
+                {
+                     td = tr[i].getElementsByTagName("td")[0];
+                      if (td)
+                       {
+                         txtValue = td.textContent || td.innerText;
+                         if (txtValue.toUpperCase().indexOf(filter) > -1) 
+                         {
+                             tr[i].style.display = "";
+                         } 
+                         else 
+                         {
+                             tr[i].style.display = "none";
+                         }
+                       }
+                 }
+         }
+         $("form").submit(function(e){
+
+           
+            e.preventDefault();
+            var name = $("input[name='name']").val();
+            var eng = $("input[name='eng']").val();
+             var math = $("input[name='math']").val();
+
+             var total  = ( Number($("input[name='eng']").val()) + Number($("input[name='math']").val()));
+                          $(".td1").val(total);
+            var avg = total/2;
+            $(".td2").val(avg);
+               
+                                 
+                               //  if(avg>50)
+                               //  {
+                               //    $.alert({
+                               //     title: 'your result is!',
+                               //     content: 'PASS!',
+                               //     type:'green',
+                               //     autoclose: 'ok|2000'
+                               //    });
+
+                               //  }
+                               //  else
+                               //  {
+                               //  $.alert({
+                               //     title: 'your result is!',
+                               //     content: 'Fail!',
+                               //     type:'green',
+                               //     autoclose: 'ok|2000'
+                               //    });
+
+                               // } 
+
+               $(".data-table tbody").append("<tr data-name='"+name+"' data-eng='"+eng+"' data-math='"+math+"' data-total='"+total+"' data-avg='"+avg+"'><td>"+name+"</td><td>"+eng+"</td><td>"+math+"</td><td class='td1'>"+total+"</td><td class='td2'>"+avg+"</td><td><button class='btn btn-info btn-sm btn-edit'>Edit</button><button class='btn btn-danger btn-sm btn-delete'>Delete</button></td></tr>");
+
+
+                $("input[name='name']").val('');
+                $("input[name='eng']").val('');
+                  $("input[name='math']").val('');
+           
+          });
+
+            $("body").on("click", ".btn-edit", function(){
+               
+
+                 var name = $(this).parents("tr").attr('data-name');
+                var eng = $(this).parents("tr").attr('data-eng');
+                 var math = $(this).parents("tr").attr('data-math');
+               // var total = $(this).parents("tr").attr('data-total');
+                 // var avg = $(this).parents("tr").attr('data-avg');
+                
+
+         $(this).parents("tr").find("td:eq(0)").html('<input name="edit_name" value="'+name+'">');
+         $(this).parents("tr").find("td:eq(1)").html('<input name="edit_eng" value="'+eng+'">');
+         $(this).parents("tr").find("td:eq(2)").html('<input name="edit_math" value="'+math+'">');
+         // $(this).parents("tr").find("td:eq(3)").html('<input name="edit_total" value="'+total+'">');
+          // $(this).parents("tr").find("td:eq(4)").html('<input name="edit_avg" value="'+avg+'">');
+
+
+          $(this).parents("tr").find("td:eq(5)").prepend("<button class='btn btn-info btn-sm btn-update'>Update</button>")
+        $(this).hide();
+
+        });
+
+     $("body").on("click", ".btn-update", function(){
+         debugger;
+            
+        var name = $(this).parents("tr").find("input[name='edit_name']").val();
+        var eng = $(this).parents("tr").find("input[name='edit_eng']").val();
+        var math = $(this).parents("tr").find("input[name='edit_math']").val();
+         // var total = $(this).parents("tr").find("").val();
+        // var avg = $(this).parents("tr").find("td:eq(4)").html();
+        
+                
+       
+        $(this).parents("tr").find("td:eq(0)").text(name);
+        $(this).parents("tr").find("td:eq(1)").text(eng);
+         $(this).parents("tr").find("td:eq(2)").text(math);
+         $(this).parents("tr").find("td:eq(3)").text(total);
+         $(this).parents("tr").find("td:eq(4)").text(avg);
+       
+     
+        $(this).parents("tr").attr('data-name', name);
+        $(this).parents("tr").attr('data-eng', eng);
+        $(this).parents("tr").attr('data-math', math);
+         $(this).parents("tr").attr('data-total', total);
+          $(this).parents("tr").attr('data-avg', avg);
+       
+    
+        $(this).parents("tr").find(".btn-edit").show();       
+        $(this).parents("tr").find(".btn-update").remove();
+    });
+
+      $("body").on("click", ".btn-delete", function(){
+        $(this).parents("tr").remove();
+    });
+        
+ 
+
+
+
+
+
+
+       </script>
+
+</body>
+</html>
